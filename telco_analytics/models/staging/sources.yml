@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Raw IBM Telco churn data loaded from CSV"
+    tables:
+      - name: telco_churn
+        description: "7,043 customer records with contract, service, and churn info"
+        columns:
+          - name: customerID
+            description: "Unique customer identifier"
+            tests:
+              - unique
+              - not_null
+          - name: TotalCharges
+            description: "Stored as string in source — blank for ~11 new customers"
+          - name: Churn
+            description: "Yes/No — whether customer left in the last month"
