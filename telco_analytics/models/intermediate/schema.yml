@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: int_customers_enriched
+    description: "Cleaned and enriched customer records with business logic applied"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: tenure_bucket
+        description: "Grouped tenure ranges for cohort analysis"
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - '0-6 months'
+                - '7-12 months'
+                - '13-24 months'
+                - '25-48 months'
+                - '49+ months'
+      - name: monthly_charge_tier
+        description: "Charge band: low / medium / high / very high"
+        tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high', 'very high']
+      - name: lifetime_value
+        description: "Total charges if available, else monthly * tenure as proxy"
+        tests:
+          - not_null
