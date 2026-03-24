@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "One row per customer with full profile — demographics, services, charges"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: contract_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Month-to-month', 'One year', 'Two year']
+      - name: tenure_bucket
+        tests:
+          - not_null
+      - name: monthly_charge_tier
+        tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high', 'very high']
+      - name: internet_service_type
+        tests:
+          - accepted_values:
+              values: ['DSL', 'Fiber optic', 'No']
+      - name: payment_method
+        tests:
+          - accepted_values:
+              values:
+                - 'Electronic check'
+                - 'Mailed check'
+                - 'Bank transfer (automatic)'
+                - 'Credit card (automatic)'
+
+  - name: fct_churn
+    description: "One row per customer focused on churn outcome and its predictors"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: has_churned
+        description: "True if customer left in the last month"
+        tests:
+          - not_null
+      - name: contract_type
+        tests:
+          - not_null
+      - name: tenure_bucket
+        tests:
+          - not_null
+      - name: monthly_charges
+        tests:
+          - not_null
